@@ -5,12 +5,12 @@ class Item {
 
   Item({this.id, required this.name, required this.quantity});
 
-  // Convert object → Firestore map
+  // Convert object into Firestore map
   Map<String, dynamic> toMap() {
     return {'name': name, 'quantity': quantity};
   }
 
-  // Convert Firestore → object
+  // Convert Firestore into object
   factory Item.fromMap(String id, Map<String, dynamic> data) {
     return Item(
       id: id,
