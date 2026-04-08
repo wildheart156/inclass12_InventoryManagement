@@ -75,8 +75,13 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: const Text('Inventory App'),
     ),
-    body: const Center(
-      child: Text('Inventory will appear here'),
+    body: StreamBuilder<List<Item>>(
+      stream: service.streamItems(),
+      builder: (context, snapshot) {
+        return const Center(
+          child: Text('Loading data...'),
+        );
+      },
     ),
         floatingActionButton: FloatingActionButton(
       onPressed: () {
