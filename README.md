@@ -1,17 +1,11 @@
 # in_class_inventory_management
 
-A new Flutter project.
+1. Low Stock indicator
+   If an item with a low quantity (less than 5) are shown visually highlighted to indicate low stock. This was added to help user experience by providing immediate visual feedback that an item needs restocking
+   Example: quantity < 5 = red color (low stock)
+   Quantity >5 = normal color
 
-## Getting Started
+3. Added validation for input in text fields
+   To try and keep the app from crashing and disruptive inputs, this feature keeps the user from leaving fields blank when creating new items for the inventory.
+   
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
