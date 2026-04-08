@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firestore_service.dart';
 import 'item.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: InventoryPage());
+    return MaterialApp(home: InventoryPage());
   }
 }
 
@@ -70,44 +71,52 @@ class InventoryPage extends StatelessWidget {
   }
 
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Inventory App'),
-    ),
-    body: StreamBuilder<List<Item>>(
-      stream: service.streamItems(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Inventory App')),
+
+      body: StreamBuilder<List<Item>>(
+        stream: service.streamItems(),
+        builder: (context, snapshot) {
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
           if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
+            return Text('Error: ${snapshot.error}');
           }
 
           final items = snapshot.data ?? [];
 
           if (items.isEmpty) {
-            return const Center(
-              child: Text('No items yet.'),
-            );
+            return const Center(child: Text('No items yet.'));
           }
 
-        return const Center(
-          child: Text('Data Loaded'),
-        );
-      },
-    ),
-        floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        // Will implement later
-      },
-      child: const Icon(Icons.add),
-    ),
-  );
-}
+          return ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (_, index) {
+              final item = items[index];
 
+              return ListTile(
+                title: Text(item.name),
+                subtitle: Text('Qty: ${item.quantity}'),
+
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () => service.deleteItem(item.id!),
+                ),
+              );
+            },
+          );
+        },
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showAddItemDialog(context),
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
 
