@@ -54,6 +54,12 @@ class InventoryPage extends StatelessWidget {
               final qty = int.tryParse(qtyController.text) ?? 0;
 
 
+              //adding validation
+              if (name.isEmpty || qty <= 0) return;
+
+              await service.addItem(
+                Item(name: name, quantity: qty),
+              );
               Navigator.pop(context);
             },
             child: const Text('Add'),
@@ -62,3 +68,17 @@ class InventoryPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Inventory App'),
+    ),
+    body: const Center(
+      child: Text('Inventory will appear here'),
+    ),
+  );
+}
+
+
