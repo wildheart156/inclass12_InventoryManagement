@@ -78,8 +78,26 @@ Widget build(BuildContext context) {
     body: StreamBuilder<List<Item>>(
       stream: service.streamItems(),
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+
+          final items = snapshot.data ?? [];
+
+          if (items.isEmpty) {
+            return const Center(
+              child: Text('No items yet.'),
+            );
+          }
+
         return const Center(
-          child: Text('Loading data...'),
+          child: Text('Data Loaded'),
         );
       },
     ),
