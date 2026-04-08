@@ -9,3 +9,56 @@ void main() async {
   runApp(MyApp());
 }
 
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(home: InventoryPage());
+  }
+}
+
+
+class InventoryPage extends StatelessWidget {
+  final FirestoreService service = FirestoreService();
+
+  InventoryPage({super.key});
+
+  void showAddItemDialog(BuildContext context) {
+    final nameController = TextEditingController();
+    final qtyController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Add Item'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Item Name'),
+            ),
+            TextField(
+              controller: qtyController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Quantity'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              final name = nameController.text.trim();
+              final qty = int.tryParse(qtyController.text) ?? 0;
+
+
+              Navigator.pop(context);
+            },
+            child: const Text('Add'),
+          ),
+        ],
+      ),
+    );
+  }
