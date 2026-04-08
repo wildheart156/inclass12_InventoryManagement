@@ -99,8 +99,19 @@ class InventoryPage extends StatelessWidget {
               final item = items[index];
 
               return ListTile(
-                title: Text(item.name),
-                subtitle: Text('Qty: ${item.quantity}'),
+                title: Text(
+                  item.name,
+                  style: TextStyle(
+                    color: item.quantity < 5 ? Colors.red : Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  'Qty: ${item.quantity}',
+                  style: TextStyle(
+                    color: item.quantity < 5 ? Colors.red : Colors.grey[700],
+                  ),
+                ),
 
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
