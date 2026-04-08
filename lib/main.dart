@@ -78,6 +78,12 @@ Widget build(BuildContext context) {
     body: const Center(
       child: Text('Inventory will appear here'),
     ),
+        floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        // Will implement later
+      },
+      child: const Icon(Icons.add),
+    ),
   );
 }
 
